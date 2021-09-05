@@ -12,7 +12,7 @@
           <form @submit.prevent="addCompany">
              <div class="form-group">
               <label>logo</label>
-              <input type="text" class="form-control" v-model="company.logo" />
+              <input type="file" class="form-control" id="picture " @change="onFileChange"/>
             </div>
 
             <div class="form-group">
@@ -39,17 +39,23 @@
 </template>
  
 <script>
+import axios from 'axios'
 export default {
+
   data() {
     return {
+      logo:{},
       company: {},
+      email: {}
+
     };
   },
   methods: {
     addCompany() {
-      this.axios
+      axios
         .post("http://localhost:8000/api/companies", this.company)
         .then((response) => this.$router.push({ name: "home" }))
+        
         .catch((err) => console.log(err))
         .finally(() => (this.loading = false));
     },
